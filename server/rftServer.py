@@ -28,20 +28,28 @@ while True:
 
         #check file here make it later
 
-        file = open(filename[1],"rb")
-     
-        #send the content of the file to the client
+        #file_location = "server/"+filename[1]
+        #print(file_location)
 
-        file_data = file.read(1024)
+        if os.path.exists(filename[1]) ==  True:
+            print("file is found")
+            file = open(filename[1],"rb")
         
-        while file_data:
-            client.send(file_data)
+            #send the content of the file to the client
+
             file_data = file.read(1024)
-        #client.sendall(file_data)
+            
+            while file_data:
+                client.send(file_data)
+                file_data = file.read(1024)
+            #client.sendall(file_data)
+
+            print("file has been transferred")
+            file.close()
 
     break
 
-file.close()
+
 client.close()
 serverSocket.close()
 
