@@ -35,19 +35,24 @@ while True:
             print("file is found")
             file = open(filename[1],"rb")
         
-            #send the content of the file to the client
 
-            file_data = file.read(1024)
+            file_size = os.path.getsize(filename[1])
+            print(file_size)
+            #send the content of the file to the client
+            file_data = file.read(1000)
             
             while file_data:
                 client.send(file_data)
-                file_data = file.read(1024)
+                file_data = file.read(1000)
             #client.sendall(file_data)
 
             print("file has been transferred")
             file.close()
+        else:
+            client.send(b"file not found")
 
-    break
+        break
+    
 
 
 client.close()
