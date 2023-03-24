@@ -1,17 +1,20 @@
 from socket import *
 
 
-def ret_text_file(clientSocket, file_name):
+def ret_file(clientSocket, file_name):
     file_recv = open(file_name,"wb")
 
-    line = clientSocket.recv(1024)
+    line = clientSocket.recv(1000)
+    #print(line)
+    if line == b"file not found":
+       print(line)
+    else:
+        while line:
+            file_recv.write(line)
+            line = clientSocket.recv(1000)
 
-    while line:
-        file_recv.write(line)
-        line = clientSocket.recv(1024)
 
-
-    print("rcv successful")
+        print("rcv successful")
 
 def main():
     clientSocket = socket(AF_INET, SOCK_STREAM)
@@ -32,9 +35,10 @@ def main():
 
     file_name = request_file[4:]
    
-    #if request_file[-3:] == "txt":
-    ret_text_file(clientSocket,file_name)
-    #if request_file[-3:] == "png"
+
+
+    ret_file(clientSocket,file_name)
+
 
 if __name__ == '__main__':
     main()
